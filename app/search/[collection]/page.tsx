@@ -7,20 +7,22 @@ async function CollectionPage({
   params,
   searchParams,
 }: {
-  params: {
+  params: Promise<{
     collection: string;
-  };
-  searchParams?: { [key: string]: string | string[] | undefined };
+  }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const { sort } = searchParams as {
+  const { sort } = (await searchParams) as {
     [key: string]: string | string[] | undefined;
   };
+
+  const { collection } = await params;
 
   const { sortKey, reverse } =
     sorting.find((item) => item.slug === sort) || defaultSort;
 
   const products = await getCollectionProducts({
-    collection: params.collection,
+    collection,
     sortKey,
     reverse,
   });
