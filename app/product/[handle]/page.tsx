@@ -8,7 +8,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import React, { Suspense } from "react";
 
-async function ProductPage({ params }: { params: { handle: string } }) {
+async function ProductPage({
+  params,
+}: {
+  params: Promise<{ handle: string }>;
+}) {
   const { handle } = await params;
   const product = await getProduct(handle);
 
